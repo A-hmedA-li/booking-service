@@ -1,4 +1,5 @@
 "use client"
+
 import { createContext, useContext, useEffect, useState } from "react"
 
 const initialState = {
@@ -15,10 +16,11 @@ export function ThemeProvider({
   ...props
 }) {
   const [theme, setTheme] = useState(defaultTheme)
-
+  console.log(theme)
   useEffect(() => {
+ 
     const savedTheme = localStorage.getItem(storageKey)
-
+     
     if (savedTheme) {
       setTheme(savedTheme)
     } else {
@@ -30,8 +32,9 @@ export function ThemeProvider({
     const root = window.document.documentElement
 
     root.classList.remove("light", "dark")
-
+    
     if (theme === "system") {
+      
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
         .matches
         ? "dark"
@@ -39,7 +42,7 @@ export function ThemeProvider({
       root.classList.add(systemTheme)
       return
     }
-
+   
     root.classList.add(theme)
   }, [theme])
 
@@ -60,7 +63,7 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
+  
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider")
   }

@@ -24,8 +24,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DaysTimePicker } from "@/components/ui/day-time-picker"
+import { useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
 
 export function BookingForm() {
+  const t = useTranslations("form")
+  const locale = useLocale()
+  const isRtl = locale === "ar"
+
   const [activeTab, setActiveTab] = useState("business")
   const [formData, setFormData] = useState({
     businessName: "",
@@ -37,49 +43,49 @@ export function BookingForm() {
     workingDays: [
       {
         id: "monday",
-        label: "Monday",
+        label: t("availability.days.monday"),
         enabled: true,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "tuesday",
-        label: "Tuesday",
+        label: t("availability.days.tuesday"),
         enabled: true,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "wednesday",
-        label: "Wednesday",
+        label: t("availability.days.wednesday"),
         enabled: true,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "thursday",
-        label: "Thursday",
+        label: t("availability.days.thursday"),
         enabled: true,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "friday",
-        label: "Friday",
+        label: t("availability.days.friday"),
         enabled: true,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "saturday",
-        label: "Saturday",
+        label: t("availability.days.saturday"),
         enabled: false,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
       },
       {
         id: "sunday",
-        label: "Sunday",
+        label: t("availability.days.sunday"),
         enabled: false,
         startTime: "09:00 AM",
         endTime: "05:00 PM"
@@ -134,7 +140,7 @@ export function BookingForm() {
       if (day.enabled) {
         const isValid = validateTimeRange(day.startTime, day.endTime)
         if (!isValid) {
-          newDayErrors[day.id] = { range: "End time must be after start time" }
+          newDayErrors[day.id] = { range: t("timeError") }
         }
       }
     })
@@ -206,44 +212,43 @@ export function BookingForm() {
 
     // Business Information
     if (!formData.businessName.trim()) {
-      newErrors.businessName = "Business name is required"
+      newErrors.businessName = t("business.name.error")
     }
     if (!formData.businessType.trim()) {
-      newErrors.businessType = "Business type is required"
+      newErrors.businessType = t("business.type.error")
     }
     if (!formData.businessAddress.trim()) {
-      newErrors.businessAddress = "Business address is required"
+      newErrors.businessAddress = t("business.address.error")
     }
     if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = "Phone number is required"
+      newErrors.phoneNumber = t("business.phone.error")
     }
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
+      newErrors.email = t("business.email.error")
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid"
+      newErrors.email = t("business.email.invalidError")
     }
     if (!formData.socialLink.trim()) {
-      newErrors.socialLink = "Social link is required"
+      newErrors.socialLink = t("business.social.error")
     } else if (!/^https?:\/\/\S+/.test(formData.socialLink)) {
-      newErrors.socialLink =
-        "Please enter a valid URL starting with http:// or https://"
+      newErrors.socialLink = t("business.social.invalidError")
     }
 
     // Availability
     const enabledDays = formData.workingDays.filter(day => day.enabled)
     if (enabledDays.length === 0) {
-      newErrors.workingDays = "Select at least one working day"
+      newErrors.workingDays = t("availability.workingDays.error")
     }
 
     // Check if there are any day time range errors
     const hasTimeRangeErrors = Object.keys(dayErrors).length > 0
     if (hasTimeRangeErrors) {
-      newErrors.workingDays = "Please fix the time range errors"
+      newErrors.workingDays = t("availability.workingDays.rangeError")
     }
 
     // Agreement
     if (!formData.agreement) {
-      newErrors.agreement = "You must agree to the terms"
+      newErrors.agreement = t("agreement.error")
     }
 
     setErrors(newErrors)
@@ -279,27 +284,30 @@ export function BookingForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto">
-  
+    <Form  onSubmit={handleSubmit}
+        className={`space-y-8 max-w-4xl mx-auto ${isRtl ? "rtl" : "ltr"}`}>
+ 
+       
+      
         <Tabs
           defaultValue="business"
           value={activeTab}
           onValueChange={setActiveTab}
         >
           <TabsList className="grid grid-cols-4 mb-8">
-            <TabsTrigger value="business">Business Info</TabsTrigger>
-            <TabsTrigger value="availability">Availability</TabsTrigger>
-            <TabsTrigger value="plans">Plans & Payment</TabsTrigger>
-            <TabsTrigger value="agreement">Agreement</TabsTrigger>
+            <TabsTrigger value="business">{t("tabs.business")}</TabsTrigger>
+            <TabsTrigger value="availability">
+              {t("tabs.availability")}
+            </TabsTrigger>
+            <TabsTrigger value="plans">{t("tabs.plans")}</TabsTrigger>
+            <TabsTrigger value="agreement">{t("tabs.agreement")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="business">
             <Card>
               <CardHeader>
-                <CardTitle>Business Information</CardTitle>
-                <CardDescription>
-                  Provide details about your business for the booking system
-                </CardDescription>
+                <CardTitle>{t("business.title")}</CardTitle>
+                <CardDescription>{t("business.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <FormField
@@ -307,7 +315,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="businessName">
-                        Business Name
+                        {t("business.name.label")}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -318,7 +326,7 @@ export function BookingForm() {
                           className={
                             errors.businessName ? "border-red-500" : ""
                           }
-                          placeholder="Your Business Name"
+                          placeholder={t("business.name.placeholder")}
                         />
                       </FormControl>
                       {errors.businessName && (
@@ -333,7 +341,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="businessType">
-                        Business Type
+                        {t("business.type.label")}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -344,7 +352,7 @@ export function BookingForm() {
                           className={
                             errors.businessType ? "border-red-500" : ""
                           }
-                          placeholder="e.g. Salon, Clinic, Consultancy"
+                          placeholder={t("business.type.placeholder")}
                         />
                       </FormControl>
                       {errors.businessType && (
@@ -359,7 +367,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="businessAddress">
-                        Business Address
+                        {t("business.address.label")}
                       </FormLabel>
                       <FormControl>
                         <Textarea
@@ -370,7 +378,7 @@ export function BookingForm() {
                           className={
                             errors.businessAddress ? "border-red-500" : ""
                           }
-                          placeholder="Your business address"
+                          placeholder={t("business.address.placeholder")}
                         />
                       </FormControl>
                       {errors.businessAddress && (
@@ -386,7 +394,7 @@ export function BookingForm() {
                     render={() => (
                       <FormItem>
                         <FormLabel htmlFor="phoneNumber">
-                          Phone Number
+                          {t("business.phone.label")}
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -398,7 +406,7 @@ export function BookingForm() {
                             className={
                               errors.phoneNumber ? "border-red-500" : ""
                             }
-                            placeholder="+971 XX XXX XXXX"
+                            placeholder={t("business.phone.placeholder")}
                           />
                         </FormControl>
                         {errors.phoneNumber && (
@@ -412,7 +420,9 @@ export function BookingForm() {
                     name="email"
                     render={() => (
                       <FormItem>
-                        <FormLabel htmlFor="email">Email Address</FormLabel>
+                        <FormLabel htmlFor="email">
+                          {t("business.email.label")}
+                        </FormLabel>
                         <FormControl>
                           <Input
                             id="email"
@@ -421,7 +431,7 @@ export function BookingForm() {
                             value={formData.email}
                             onChange={handleInputChange}
                             className={errors.email ? "border-red-500" : ""}
-                            placeholder="your@email.com"
+                            placeholder={t("business.email.placeholder")}
                           />
                         </FormControl>
                         {errors.email && (
@@ -437,7 +447,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="socialLink">
-                        Instagram or WhatsApp Link
+                        {t("business.social.label")}
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -447,7 +457,7 @@ export function BookingForm() {
                           value={formData.socialLink}
                           onChange={handleInputChange}
                           className={errors.socialLink ? "border-red-500" : ""}
-                          placeholder="https://instagram.com/yourbusiness or https://wa.me/971XXXXXXXX"
+                          placeholder={t("business.social.placeholder")}
                         />
                       </FormControl>
                       {errors.socialLink && (
@@ -458,7 +468,7 @@ export function BookingForm() {
                 />
 
                 <div>
-                  <FormLabel>Business Logo</FormLabel>
+                  <FormLabel>{t("business.logo.label")}</FormLabel>
                   <div className="mt-2 flex items-center gap-4">
                     <label htmlFor="logo-upload" className="cursor-pointer">
                       <div className="flex items-center justify-center w-40 h-40 border-2 border-dashed rounded-md border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
@@ -484,7 +494,9 @@ export function BookingForm() {
                                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                               />
                             </svg>
-                            <span className="text-sm">Upload Logo</span>
+                            <span className="text-sm">
+                              {t("business.logo.upload")}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -497,8 +509,8 @@ export function BookingForm() {
                       />
                     </label>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      <p>Upload your business logo (PNG or JPG)</p>
-                      <p>Maximum file size: 5MB</p>
+                      <p>{t("business.logo.description1")}</p>
+                      <p>{t("business.logo.description2")}</p>
                     </div>
                   </div>
                 </div>
@@ -509,7 +521,7 @@ export function BookingForm() {
                   onClick={() => setActiveTab("availability")}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Next: Availability
+                  {t("business.next")}
                 </button>
               </CardFooter>
             </Card>
@@ -518,9 +530,9 @@ export function BookingForm() {
           <TabsContent value="availability">
             <Card>
               <CardHeader>
-                <CardTitle>Availability</CardTitle>
+                <CardTitle>{t("availability.title")}</CardTitle>
                 <CardDescription>
-                  Set your working days and hours for the booking system
+                  {t("availability.description")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -528,7 +540,9 @@ export function BookingForm() {
                   name="workingDays"
                   render={() => (
                     <FormItem>
-                      <FormLabel>Working Days & Hours</FormLabel>
+                      <FormLabel>
+                        {t("availability.workingDays.label")}
+                      </FormLabel>
                       <FormControl>
                         <DaysTimePicker
                           days={formData.workingDays}
@@ -548,7 +562,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="holidays">
-                        Holidays or Exceptions (Optional)
+                        {t("availability.holidays.label")}
                       </FormLabel>
                       <FormControl>
                         <Textarea
@@ -556,11 +570,11 @@ export function BookingForm() {
                           name="holidays"
                           value={formData.holidays}
                           onChange={handleInputChange}
-                          placeholder="e.g. Closed on public holidays, Annual leave from 15-30 August"
+                          placeholder={t("availability.holidays.placeholder")}
                         />
                       </FormControl>
                       <FormDescription>
-                        List any regular holidays or exceptional closures
+                        {t("availability.holidays.description")}
                       </FormDescription>
                     </FormItem>
                   )}
@@ -572,14 +586,14 @@ export function BookingForm() {
                   onClick={() => setActiveTab("business")}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Back
+                  {t("availability.back")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab("plans")}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Next: Plans & Payment
+                  {t("availability.next")}
                 </button>
               </CardFooter>
             </Card>
@@ -588,17 +602,15 @@ export function BookingForm() {
           <TabsContent value="plans">
             <Card>
               <CardHeader>
-                <CardTitle>Plan Selection & Payment</CardTitle>
-                <CardDescription>
-                  Choose your subscription plan and payment method
-                </CardDescription>
+                <CardTitle>{t("plans.title")}</CardTitle>
+                <CardDescription>{t("plans.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <FormField
                   name="plan"
                   render={() => (
                     <FormItem className="space-y-3">
-                      <FormLabel>Select Your Plan</FormLabel>
+                      <FormLabel>{t("plans.selectPlan")}</FormLabel>
                       <FormControl>
                         <RadioGroup
                           value={formData.plan}
@@ -614,16 +626,13 @@ export function BookingForm() {
                                 htmlFor="basic"
                                 className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                               >
-                                🔹 Basic Plan - 169 AED/month
+                                {t("plans.basicPlan.title")}
                               </label>
                               <p className="text-sm text-gray-500 dark:text-gray-400">
-                                • Full online booking website + mobile booking
-                                app
-                                <br />• Up to 100 bookings/month (expandable on
-                                request)
-                                <br />• WhatsApp integration + 100 WhatsApp
-                                Business credits
-                                <br />• 15% discount for annual subscription
+                                {t("plans.basicPlan.features.0")}
+                                <br />• {t("plans.basicPlan.features.1")}
+                                <br />• {t("plans.basicPlan.features.2")}
+                                <br />• {t("plans.basicPlan.features.3")}
                               </p>
                             </div>
                           </div>
@@ -635,13 +644,12 @@ export function BookingForm() {
                                 htmlFor="premium"
                                 className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                               >
-                                🔸 Premium Plan - 399 AED/month
+                                {t("plans.premiumPlan.title")}
                               </label>
                               <p className="text-sm text-gray-500 dark:text-gray-400">
-                                • All Basic Plan features
-                                <br />• Up to 500 bookings/month
-                                <br />• Includes direct online payment during
-                                booking
+                                {t("plans.premiumPlan.features.0")}
+                                <br />• {t("plans.premiumPlan.features.1")}
+                                <br />• {t("plans.premiumPlan.features.2")}
                               </p>
                             </div>
                           </div>
@@ -657,7 +665,7 @@ export function BookingForm() {
                   name="paymentMethod"
                   render={() => (
                     <FormItem className="space-y-3">
-                      <FormLabel>Payment Method</FormLabel>
+                      <FormLabel>{t("plans.paymentMethod.label")}</FormLabel>
                       <FormControl>
                         <RadioGroup
                           value={formData.paymentMethod}
@@ -672,7 +680,7 @@ export function BookingForm() {
                               htmlFor="bank"
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              Bank Transfer
+                              {t("plans.paymentMethod.bank")}
                             </label>
                           </div>
                           <div className="flex items-center space-x-3 space-y-0">
@@ -681,7 +689,7 @@ export function BookingForm() {
                               htmlFor="cash"
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              Cash
+                              {t("plans.paymentMethod.cash")}
                             </label>
                           </div>
                           <div className="flex items-center space-x-3 space-y-0">
@@ -690,7 +698,7 @@ export function BookingForm() {
                               htmlFor="online"
                               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                              Online Payment Link
+                              {t("plans.paymentMethod.online")}
                             </label>
                           </div>
                         </RadioGroup>
@@ -704,7 +712,7 @@ export function BookingForm() {
                   render={() => (
                     <FormItem>
                       <FormLabel htmlFor="paymentNotes">
-                        Payment Notes (Optional)
+                        {t("plans.paymentNotes.label")}
                       </FormLabel>
                       <FormControl>
                         <Textarea
@@ -712,7 +720,7 @@ export function BookingForm() {
                           name="paymentNotes"
                           value={formData.paymentNotes}
                           onChange={handleInputChange}
-                          placeholder="Any additional information about your payment"
+                          placeholder={t("plans.paymentNotes.placeholder")}
                         />
                       </FormControl>
                     </FormItem>
@@ -725,14 +733,14 @@ export function BookingForm() {
                   onClick={() => setActiveTab("availability")}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Back
+                  {t("plans.back")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab("agreement")}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Next: Agreement
+                  {t("plans.next")}
                 </button>
               </CardFooter>
             </Card>
@@ -741,10 +749,8 @@ export function BookingForm() {
           <TabsContent value="agreement">
             <Card>
               <CardHeader>
-                <CardTitle>Service Agreement</CardTitle>
-                <CardDescription>
-                  Please review and accept the service agreement
-                </CardDescription>
+                <CardTitle>{t("agreement.title")}</CardTitle>
+                <CardDescription>{t("agreement.description")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md max-h-80 overflow-y-auto text-sm">
@@ -851,8 +857,7 @@ export function BookingForm() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel htmlFor="agreement">
-                          I have read and agree to the terms of the Service
-                          Agreement
+                          {t("agreement.consent")}
                         </FormLabel>
                         {errors.agreement && (
                           <FormMessage>{errors.agreement}</FormMessage>
@@ -868,19 +873,19 @@ export function BookingForm() {
                   onClick={() => setActiveTab("plans")}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Back
+                  {t("agreement.back")}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Submit Application
+                  {t("agreement.submit")}
                 </button>
               </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
-   
+    
     </Form>
   )
 }

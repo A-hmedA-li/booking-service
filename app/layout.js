@@ -4,7 +4,7 @@ import "./globals.css"
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ar" suppressHydrationWarning>
       <head>
         <title>Booking Service</title>
         <meta
@@ -13,15 +13,10 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-        <ThemeProvider defaultTheme="light">
-          <header className="border-b border-gray-200 dark:border-gray-800">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-              <h1 className="text-xl font-bold">Booking Service</h1>
-              <ThemeToggle />
-            </div>
-          </header>
-          <main className="container mx-auto px-4 py-8">{children}</main>
-        </ThemeProvider>
+   
+        
+            {children}
+      
       </body>
     </html>
   )

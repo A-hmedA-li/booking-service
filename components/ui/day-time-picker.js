@@ -1,6 +1,6 @@
 "use client"
-import * as React from "react"
 import { useState, useEffect } from "react"
+import { useTranslations } from "next-intl"
 
 export function SingleTimePicker({
   label,
@@ -97,6 +97,8 @@ export function SingleTimePicker({
 }
 
 export function DayTimePicker({ day, onDayChange, error }) {
+  const t = useTranslations("form")
+
   const handleCheckboxChange = e => {
     onDayChange({
       ...day,
@@ -141,14 +143,14 @@ export function DayTimePicker({ day, onDayChange, error }) {
         }`}
       >
         <SingleTimePicker
-          label="From"
+          label={t("availability.from")}
           time={day.startTime}
           onTimeChange={handleStartTimeChange}
           error={error?.start}
           className="w-full"
         />
         <SingleTimePicker
-          label="To"
+          label={t("availability.to")}
           time={day.endTime}
           onTimeChange={handleEndTimeChange}
           error={error?.end}
@@ -160,6 +162,7 @@ export function DayTimePicker({ day, onDayChange, error }) {
 }
 
 export function DaysTimePicker({ days, onDaysChange, errors = {} }) {
+  const t = useTranslations("form")
   const [generalStartTime, setGeneralStartTime] = useState("09:00 AM")
   const [generalEndTime, setGeneralEndTime] = useState("05:00 PM")
 
@@ -192,17 +195,17 @@ export function DaysTimePicker({ days, onDaysChange, errors = {} }) {
     <div className="space-y-4">
       <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md">
         <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-          Set hours for all days
+          {t("availability.generalHours")}
         </h4>
         <div className="grid grid-cols-2 gap-4">
           <SingleTimePicker
-            label="From"
+            label={t("availability.from")}
             time={generalStartTime}
             onTimeChange={handleGeneralStartTimeChange}
             className="w-full"
           />
           <SingleTimePicker
-            label="To"
+            label={t("availability.to")}
             time={generalEndTime}
             onTimeChange={handleGeneralEndTimeChange}
             className="w-full"

@@ -1,0 +1,266 @@
+{
+  "header": {
+    "title": "Booking Service",
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "title": "Streamline Your Business Bookings",
+    "description": "Effortlessly manage appointments, reduce no-shows, and grow your business with our powerful booking system.",
+    "startTrial": "Start Your Free Trial",
+    "learnMore": "Learn More"
+  },
+  "features": {
+    "title": "Powerful Features for Your Business",
+    "description": "Our booking system is designed to make your business operations smoother and more efficient.",
+    "onlineBooking": {
+      "title": "24/7 Online Booking",
+      "description": "Allow your customers to book appointments anytime, anywhere, from any device."
+    },
+    "reminders": {
+      "title": "Automated Reminders",
+      "description": "Reduce no-shows with automated SMS and email reminders to your clients."
+    },
+    "forms": {
+      "title": "Custom Booking Forms",
+      "description": "Collect all the information you need from clients during the booking process."
+    },
+    "payments": {
+      "title": "Online Payments",
+      "description": "Accept payments online at the time of booking with our secure payment integration."
+    },
+    "analytics": {
+      "title": "Business Analytics",
+      "description": "Gain insights into your business with detailed reports and analytics."
+    },
+    "app": {
+      "title": "Mobile App",
+      "description": "Manage your bookings on the go with our dedicated mobile application."
+    }
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "description": "Choose the plan that works best for your business needs.",
+    "basic": {
+      "title": "Basic Plan",
+      "price": "169",
+      "currency": "AED/month",
+      "description": "Perfect for small businesses just getting started with online booking.",
+      "features": [
+        "Full online booking website",
+        "Mobile booking app",
+        "Up to 100 bookings/month",
+        "WhatsApp integration",
+        "100 WhatsApp Business credits",
+        "15% discount for annual subscription"
+      ]
+    },
+    "premium": {
+      "title": "Premium Plan",
+      "price": "399",
+      "currency": "AED/month",
+      "description": "Ideal for growing businesses with higher booking volumes.",
+      "popular": "Most Popular",
+      "features": [
+        "All Basic Plan features",
+        "Up to 500 bookings/month",
+        "Direct online payment during booking",
+        "Advanced analytics dashboard",
+        "Priority customer support",
+        "Custom branding options"
+      ]
+    },
+    "enterprise": {
+      "title": "Enterprise Plan",
+      "price": "Custom",
+      "description": "Tailored solutions for large businesses with specific requirements.",
+      "features": [
+        "All Premium Plan features",
+        "Unlimited bookings",
+        "Dedicated account manager",
+        "Custom integrations",
+        "API access",
+        "SLA with 99.9% uptime guarantee"
+      ]
+    },
+    "getStarted": "Get Started",
+    "contactSales": "Contact Sales"
+  },
+  "about": {
+    "title": "About Rafiq Al Sahab",
+    "description1": "Rafiq Al Sahab Technology L.L.C is a UAE-registered entity dedicated to providing innovative booking solutions for businesses of all sizes.",
+    "description2": "Our mission is to help businesses streamline their appointment scheduling, reduce administrative overhead, and provide a seamless booking experience for their customers.",
+    "description3": "With years of experience in the industry, we understand the unique challenges faced by service-based businesses and have developed our platform to address these specific needs."
+  },
+  "whyChoose": {
+    "title": "Why Choose Us",
+    "description": "We're committed to providing the best booking experience for you and your customers.",
+    "reasons": {
+      "easyToUse": {
+        "title": "Easy to Use",
+        "description": "Our platform is designed to be intuitive and user-friendly, requiring minimal training to get started."
+      },
+      "reliable": {
+        "title": "Reliable Service",
+        "description": "With 99.9% uptime, you can trust our platform to be available when you and your customers need it."
+      },
+      "support": {
+        "title": "Dedicated Support",
+        "description": "Our customer support team is available to help you with any questions or issues you may encounter."
+      },
+      "customizable": {
+        "title": "Customizable",
+        "description": "Tailor the booking experience to match your brand and specific business requirements."
+      },
+      "secure": {
+        "title": "Secure",
+        "description": "Your data and your customers' information are protected with enterprise-grade security measures."
+      },
+      "improving": {
+        "title": "Constantly Improving",
+        "description": "We regularly update our platform with new features and improvements based on customer feedback."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to Transform Your Booking Experience?",
+    "description": "Join thousands of businesses that have streamlined their booking process with our platform.",
+    "button": "Get Started Today"
+  },
+  "footer": {
+    "description": "Innovative booking solutions for modern businesses.",
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "contactUs": "Contact Us",
+    "copyright": "© {year} Rafiq Al Sahab Technology L.L.C. All rights reserved."
+  },
+  "form": {
+    "tabs": {
+      "business": "Business Info",
+      "availability": "Availability",
+      "plans": "Plans & Payment",
+      "agreement": "Agreement"
+    },
+    "business": {
+      "title": "Business Information",
+      "description": "Provide details about your business for the booking system",
+      "name": {
+        "label": "Business Name",
+        "placeholder": "Your Business Name",
+        "error": "Business name is required"
+      },
+      "type": {
+        "label": "Business Type",
+        "placeholder": "e.g. Salon, Clinic, Consultancy",
+        "error": "Business type is required"
+      },
+      "address": {
+        "label": "Business Address",
+        "placeholder": "Your business address",
+        "error": "Business address is required"
+      },
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "+971 XX XXX XXXX",
+        "error": "Phone number is required"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "your@email.com",
+        "error": "Email is required",
+        "invalidError": "Email is invalid"
+      },
+      "social": {
+        "label": "Instagram or WhatsApp Link",
+        "placeholder": "https://instagram.com/yourbusiness or https://wa.me/971XXXXXXXX",
+        "error": "Social link is required",
+        "invalidError": "Please enter a valid URL starting with http:// or https://"
+      },
+      "logo": {
+        "label": "Business Logo",
+        "upload": "Upload Logo",
+        "description1": "Upload your business logo (PNG or JPG)",
+        "description2": "Maximum file size: 5MB"
+      },
+      "next": "Next: Availability"
+    },
+    "availability": {
+      "title": "Availability",
+      "description": "Set your working days and hours for the booking system",
+      "workingDays": {
+        "label": "Working Days & Hours",
+        "error": "Select at least one working day",
+        "rangeError": "Please fix the time range errors"
+      },
+      "generalHours": "Set hours for all days",
+      "from": "From",
+      "to": "To",
+      "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      },
+      "holidays": {
+        "label": "Holidays or Exceptions (Optional)",
+        "placeholder": "e.g. Closed on public holidays, Annual leave from 15-30 August",
+        "description": "List any regular holidays or exceptional closures"
+      },
+      "back": "Back",
+      "next": "Next: Plans & Payment"
+    },
+    "plans": {
+      "title": "Plan Selection & Payment",
+      "description": "Choose your subscription plan and payment method",
+      "selectPlan": "Select Your Plan",
+      "basicPlan": {
+        "title": "🔹 Basic Plan - 169 AED/month",
+        "features": [
+          "Full online booking website + mobile booking app",
+          "Up to 100 bookings/month (expandable on request)",
+          "WhatsApp integration + 100 WhatsApp Business credits",
+          "15% discount for annual subscription"
+        ]
+      },
+      "premiumPlan": {
+        "title": "🔸 Premium Plan - 399 AED/month",
+        "features": [
+          "All Basic Plan features",
+          "Up to 500 bookings/month",
+          "Includes direct online payment during booking"
+        ]
+      },
+      "paymentMethod": {
+        "label": "Payment Method",
+        "bank": "Bank Transfer",
+        "cash": "Cash",
+        "online": "Online Payment Link"
+      },
+      "paymentNotes": {
+        "label": "Payment Notes (Optional)",
+        "placeholder": "Any additional information about your payment"
+      },
+      "back": "Back",
+      "next": "Next: Agreement"
+    },
+    "agreement": {
+      "title": "Service Agreement",
+      "description": "Please review and accept the service agreement",
+      "consent": "I have read and agree to the terms of the Service Agreement",
+      "error": "You must agree to the terms",
+      "back": "Back",
+      "submit": "Submit Application"
+    },
+    "timeError": "End time must be after start time"
+  },
+  "language": {
+    "en": "English",
+    "ar": "العربية"
+  }
+}
