@@ -94,11 +94,11 @@ export  function CircularTimePicker ({isDisabled}) {
           <div className="p-4">
             {/* Circular Clock */}
 
-            <div className='flex justify-end' onClick={()=> setMinutes(true)}>
+            <div className='flex justify-end' onClick={()=> setMinutes(!minutes)}>
                 <ChevronRight />
             </div>
             {
-               !minutes? 
+               minutes? 
               <MinuteClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedHour={selectedMin} />
               :<HourClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedHour={selectedHour}/>
             }
