@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
-
+import { CircularTimePicker } from "./timePic"
 export function SingleTimePicker({
   label,
   time,
@@ -9,7 +9,8 @@ export function SingleTimePicker({
   className = "",
   error
 }) {
-  const [hour, setHour] = useState("09")
+
+  const [hour, setHour] = useState("10")
   const [minute, setMinute] = useState("00")
   const [period, setPeriod] = useState("AM")
 
@@ -30,16 +31,9 @@ export function SingleTimePicker({
       setHour(hourStr)
       setMinute(minuteStr)
       setPeriod(periodStr)
+      onTimeChange(time)
     }
   }, [time])
-
-  // Update parent component when time changes
-  useEffect(() => {
-    const formattedTime = `${hour}:${minute} ${period}`
-    if (formattedTime !== time) {
-      onTimeChange(formattedTime)
-    }
-  }, [hour, minute, period, onTimeChange, time])
 
   const selectClasses =
     "flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
@@ -142,7 +136,12 @@ export function DayTimePicker({ day, onDayChange, error }) {
           !day.enabled ? "opacity-50" : ""
         }`}
       >
-        <SingleTimePicker
+
+
+        <CircularTimePicker isDisabled={day.enabled} />
+        <CircularTimePicker isDisabled={day.enabled} />
+
+        {/* <SingleTimePicker
           label={t("availability.from")}
           time={day.startTime}
           onTimeChange={handleStartTimeChange}
@@ -155,7 +154,7 @@ export function DayTimePicker({ day, onDayChange, error }) {
           onTimeChange={handleEndTimeChange}
           error={error?.end}
           className="w-full"
-        />
+        /> */}
       </div>
     </div>
   )
@@ -163,7 +162,7 @@ export function DayTimePicker({ day, onDayChange, error }) {
 
 export function DaysTimePicker({ days, onDaysChange, errors = {} }) {
   const t = useTranslations("form")
-  const [generalStartTime, setGeneralStartTime] = useState("09:00 AM")
+  const [generalStartTime, setGeneralStartTime] = useState("10:00 AM")
   const [generalEndTime, setGeneralEndTime] = useState("05:00 PM")
 
   const handleDayChange = updatedDay => {
@@ -198,6 +197,9 @@ export function DaysTimePicker({ days, onDaysChange, errors = {} }) {
           {t("availability.generalHours")}
         </h4>
         <div className="grid grid-cols-2 gap-4">
+
+
+          
           <SingleTimePicker
             label={t("availability.from")}
             time={generalStartTime}

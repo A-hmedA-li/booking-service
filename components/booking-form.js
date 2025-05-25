@@ -285,7 +285,7 @@ export function BookingForm() {
 
   return (
     <Form  onSubmit={handleSubmit}
-        className={`space-y-8 max-w-4xl mx-auto ${isRtl ? "rtl" : "ltr"}`}>
+        className={`space-y-8 max-w-4xl mx-auto $`} dir={`${isRtl ? "rtl" : "ltr"}`}>
  
        
       
