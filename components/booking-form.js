@@ -26,7 +26,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DaysTimePicker } from "@/components/ui/day-time-picker"
 import { useTranslations } from "next-intl"
 import { useLocale } from "next-intl"
-
 export function BookingForm() {
   const t = useTranslations("form")
   const locale = useLocale()

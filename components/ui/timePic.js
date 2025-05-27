@@ -15,7 +15,7 @@ export  function CircularTimePicker ({isDisabled}) {
 
 
   // Convert selected hour to display format
-  const displayTime = `${selectedHour.toString().padStart(2, '0')}:00 ${isAm ? 'AM' : 'PM'}`;
+  const displayTime = `${selectedHour.toString().padStart(2, '0')}:${selectedMin.toString().padStart(2, '0')} ${isAm ? 'AM' : 'PM'}`;
 
   // Handle mouse/touch events for circular selection
   const updateSelection = (clientX, clientY) => {
@@ -27,8 +27,12 @@ export  function CircularTimePicker ({isDisabled}) {
     const angle = Math.atan2(clientY - centerY, clientX - centerX) * 180 / Math.PI  ;
     
    
-    let hour = Math.round(((angle + 90 + 360) % 360) / 30);
-    setSelectedHour(hour === 0 ? 12 : hour);
+    let now = Math.round(((angle + 90 + 360) % 360) / 30);
+    console.log(now)
+    if (minutes)
+      setSelectedMin(now*5)
+    else
+      setSelectedHour(now === 0 ? 12 : now);
   };
 
   // Event handlers
@@ -42,31 +46,44 @@ export  function CircularTimePicker ({isDisabled}) {
 
   const handleInteractionMove = (e) => {
     if (isDragging) {
+
       updateSelection(
         e.clientX || e.touches[0].clientX, 
         e.clientY || e.touches[0].clientY
       );
+           
     }
   };
 
   const handleInteractionEnd = () => {
     setIsDragging(false);
   };
+  const handleInteractionDown = (e) =>{
+
+    if (circleRef.current  && !circleRef.current.contains(e.target))
+      setIsOpen(false)
+  }
 
   // Effect for event listeners
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousemove', handleInteractionMove);
       document.addEventListener('mouseup', handleInteractionEnd);
+      document.addEventListener('mousedown', handleInteractionDown);
       document.addEventListener('touchmove', handleInteractionMove);
+      document.addEventListener('touchstart', handleInteractionDown);
       document.addEventListener('touchend', handleInteractionEnd);
     }
 
     return () => {
       document.removeEventListener('mousemove', handleInteractionMove);
       document.removeEventListener('mouseup', handleInteractionEnd);
+      document.removeEventListener('mousedown', handleInteractionDown);
+
       document.removeEventListener('touchmove', handleInteractionMove);
       document.removeEventListener('touchend', handleInteractionEnd);
+      document.removeEventListener('touchstart', handleInteractionDown);
+
     };
   }, [isOpen, isDragging]);
 
@@ -94,13 +111,13 @@ export  function CircularTimePicker ({isDisabled}) {
           <div className="p-4">
             {/* Circular Clock */}
 
-            <div className='flex justify-end' onClick={()=> setMinutes(true)}>
+            <div className='flex justify-end' onClick={()=> setMinutes(!minutes)}>
                 <ChevronRight />
             </div>
             {
-               !minutes? 
-              <MinuteClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedHour={selectedMin} />
-              :<HourClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedHour={selectedHour}/>
+               minutes? 
+              <MinuteClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedMin={selectedMin} setSelectedMin={setSelectedMin}  />
+              :<HourClock circleRef={circleRef} handleInteractionStart={handleInteractionStart}  selectedHour={selectedHour} setSelectedHour={setSelectedHour}/>
             }
             {/* AM/PM Selector */}
             <div className="flex justify-center gap-4 mt-6">
@@ -135,10 +152,10 @@ export  function CircularTimePicker ({isDisabled}) {
 }
 
 
-function HourClock( {circleRef , handleInteractionStart  , selectedHour}){
+function HourClock( {circleRef , handleInteractionStart  , selectedHour , setSelectedHour}){
 
     const hours = Array.from({ length: 12 }, (_, i) => i + 1);
-  const minute = Array.from({ length: 59 }, (_, i) => i + 1);
+
   return (
      <div 
               ref={circleRef}
@@ -176,7 +193,7 @@ function HourClock( {circleRef , handleInteractionStart  , selectedHour}){
                       left: `calc(50% + ${x}px - 1rem)`,
                       top: `calc(50% + ${y}px - 1rem)`
                     }}
-                    onClick={() => setSelectedHour(hour)}
+                    onClick={() =>{ setSelectedHour(hour)}}
                   >
                     {hour}
                   </div>
@@ -187,10 +204,10 @@ function HourClock( {circleRef , handleInteractionStart  , selectedHour}){
 }
 
 
-function MinuteClock( {circleRef , handleInteractionStart  , selectedMin}){
+function MinuteClock( {circleRef , handleInteractionStart  , selectedMin, setSelectedMin }){
 
 
-  const minute = Array.from({ length: 59 }, (_, i) => i + 1);
+  const minute = Array.from({ length: 12 }, (_, i) =>  5*i);
   return (
      <div 
               ref={circleRef}
@@ -206,31 +223,31 @@ function MinuteClock( {circleRef , handleInteractionStart  , selectedMin}){
               <div 
                 className="absolute w-1 h-15 bg-blue-500 origin-bottom transform -translate-y-1/2"
                 style={{
-                  transform: `rotate(${selectedMin * 30  }deg)`,
+                  transform: `rotate(${selectedMin * 6   }deg)`,
                   top: '34%',
                   left: '49%'
                 }}
               />
 
               {/* Hour markers */}
-              {minute.map((hour) => {
-                const angle = (hour * 10 - 90) * (Math.PI / 180);
+              {minute.map((m) => {
+                
+                const angle = (m * 6 - 90) * (Math.PI / 180);
                 const radius = 80;
                 const x = radius * Math.cos(angle);
                 const y = radius * Math.sin(angle);
                 
                 return (
                   <div
-                    key={hour}
-                    className={`absolute flex items-center justify-center w-8 h-8 rounded-full transition-all
-                      ${selectedMin === hour ? 'bg-blue-500 text-white' : 'hover:bg-blue-100'}`}
+                    key={m}
+                    className={`absolute flex items-center justify-center w-8 h-8 rounded-full transition-all 
+                      ${selectedMin === m ? 'bg-blue-500 text-white' : 'hover:bg-blue-100'}`}
                     style={{
                       left: `calc(50% + ${x}px - 1rem)`,
                       top: `calc(50% + ${y}px - 1rem)`
                     }}
-                    onClick={() => setSelectedHour(hour)}
-                  >
-                    {hour}
+                    onClick={() =>setSelectedMin(m)} >
+                    {m}
                   </div>
                 );
               })}
